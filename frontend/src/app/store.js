@@ -1,9 +1,9 @@
 import { configureStore } from '@reduxjs/toolkit';
-import serverReducer from '../features/serverTest/serverTest.slice';
+import userApiReducer from '../features/Users/usersApi.slice';
 
 export const store = configureStore({
 	reducer: {
-		server: serverReducer,
+		users: userApiReducer,
 	},
 	middleware: (getDefaultMiddleware) =>
 		getDefaultMiddleware({
