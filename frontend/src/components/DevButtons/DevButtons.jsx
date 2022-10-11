@@ -1,5 +1,4 @@
 import React from 'react';
-import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 
 import Api from '../../api/Api';
@@ -33,60 +32,6 @@ const DevButtons = () => {
 	const newUser = useSelector((state) => state.users.newUser);
 	const updatedUser = useSelector((state) => state.users.updatedUser);
 
-	// const connectionTest = () => {
-	// 	axios
-	// 		.get('http://localhost:8080')
-	// 		.then((res) => dispatch(serverTest(res)))
-	// 		.catch((err) => dispatch(serverTest(err)));
-	// };
-
-	const loginUser = () => {
-		let user = {};
-		user.email = document.getElementById('email').value;
-		user.password = document.getElementById('password').value;
-		axios
-			.post('http://localhost:8080/api/v1/user/login', user)
-			.then((res) => dispatch(login(res)))
-			.catch((err) => dispatch(login(err.response)));
-	};
-
-	const getUserProfile = () => {
-		axios
-			.post(
-				'http://localhost:8080/api/v1/user/profile',
-				{ key: 'value' },
-				{ headers: { Authorization: `Bearer ${userToken}` } }
-			)
-			.then((res) => dispatch(getProfile(res)))
-			.catch((err) => dispatch(getProfile(err.response)));
-	};
-
-	const registerUser = () => {
-		let user = {};
-		user.email = document.getElementById('email').value;
-		user.password = document.getElementById('password').value;
-		user.firstName = document.getElementById('firstname').value;
-		user.lastName = document.getElementById('lastname').value;
-
-		axios
-			.post('http://localhost:8080/api/v1/user/signup', user)
-			.then((res) => dispatch(register(res)))
-			.catch((err) => dispatch(register(err.response)));
-	};
-
-	const updateUserInfos = () => {
-		let user = {};
-		user.firstName = document.getElementById('firstname').value;
-		user.lastName = document.getElementById('lastname').value;
-
-		axios
-			.put('http://localhost:8080/api/v1/user/profile', user, {
-				headers: { Authorization: `Bearer ${userToken}` },
-			})
-			.then((res) => dispatch(update(res)))
-			.catch((err) => dispatch(update(err.response)));
-	};
-
 	return (
 		<>
 			<div className="button">
@@ -102,7 +47,7 @@ const DevButtons = () => {
 
 				<button
 					onClick={() => {
-						loginUser();
+						getDatas('loginUser', login);
 					}}
 				>
 					Post Login (should return a confirmation of login).
@@ -113,7 +58,7 @@ const DevButtons = () => {
 
 				<button
 					onClick={() => {
-						getUserProfile();
+						getDatas('getUserProfile', getProfile, userToken);
 					}}
 				>
 					Get Profile (should return the user's profile).
@@ -132,7 +77,7 @@ const DevButtons = () => {
 				<textarea name="lastName" id="lastName" cols="30" rows="2"></textarea>
 				<button
 					onClick={() => {
-						registerUser();
+						getDatas('registerUser', register);
 					}}
 				>
 					Post Register (should return a confirmation of registration).
@@ -149,7 +94,7 @@ const DevButtons = () => {
 
 				<button
 					onClick={() => {
-						updateUserInfos();
+						getDatas('updateUserProfile', update, userToken);
 					}}
 				>
 					Put (should return a confirmation of modification).
