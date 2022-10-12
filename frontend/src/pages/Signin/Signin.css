@@ -5,14 +5,14 @@
 	font-size: 1.1rem;
 	font-weight: bold;
 	margin-top: 1rem;
-	border-color: #00bc77;
-	background-color: #00bc77;
-	color: #fff;
+	border-color: var(--secondary-color);
+	background-color: var(--secondary-color);
+	color: var(--primary-color);
 }
 
 .sign-in-content {
 	box-sizing: border-box;
-	background-color: white;
+	background-color: var(--primary-color);
 	width: 300px;
 	margin: 0 auto;
 	margin-top: 3rem;
@@ -45,4 +45,13 @@
 .input-wrapper input {
 	padding: 5px;
 	font-size: 1.2rem;
+}
+
+.is-invalid {
+	border-color: var(--quinary-color);
+	background-color: var(--senary-color);
+}
+
+.invalid-feedback {
+	color: var(--quinary-color);
 }

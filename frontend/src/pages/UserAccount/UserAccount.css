@@ -7,11 +7,11 @@
 
 .main-nav a {
 	font-weight: bold;
-	color: #2c3e50;
+	color: var(--quaternary-color);
 }
 
 .main-nav a.router-link-exact-active {
-	color: #42b983;
+	color: var(--septenary-color);
 }
 
 .main-nav-item {
@@ -37,8 +37,8 @@
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-	border: 1px solid black;
-	background-color: #fff;
+	border: 1px solid var(--tertiary-color);
+	background-color: var(--primary-color);
 	width: 80%;
 	margin: 0 auto;
 	flex-direction: column;
@@ -71,15 +71,15 @@
 }
 
 .edit-button {
-	border-color: #00bc77;
-	background-color: #00bc77;
-	color: #fff;
+	border-color: var(--secondary-color);
+	background-color: var(--secondary-color);
+	color: var(--primary-color);
 	font-weight: bold;
 	padding: 10px;
 }
 
 .header {
-	color: #fff;
+	color: var(--primary-color);
 	margin-bottom: 2rem;
 }
 
@@ -90,9 +90,9 @@
 	font-size: 1.1rem;
 	font-weight: bold;
 	margin-top: 1rem;
-	border-color: #00bc77;
-	background-color: #00bc77;
-	color: #fff;
+	border-color: var(--secondary-color);
+	background-color: var(--secondary-color);
+	color: var(--primary-color);
 }
 
 @media (min-width: 720px) {

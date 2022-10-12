@@ -1,5 +1,6 @@
 .main-nav {
 	display: flex;
+	flex-direction: row;
 	justify-content: space-between;
 	align-items: center;
 	padding: 5px 20px;
@@ -7,20 +8,28 @@
 
 .main-nav a {
 	font-weight: bold;
-	color: #2c3e50;
+	color: var(--quaternary-color);
 }
 
 .main-nav a.router-link-exact-active {
-	color: #42b983;
+	color: var(--septenary-color);
 }
 
 .main-nav-item {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
 	text-decoration: none;
 	margin-right: 0.5rem;
 }
 
 .main-nav-item:hover {
 	text-decoration: underline;
+}
+
+.main-nav-item svg {
+	margin-right: 0.5rem;
+	margin-left: 1rem;
 }
 
 .main-nav-logo {
@@ -31,4 +40,9 @@
 .main-nav-logo-image {
 	max-width: 100%;
 	width: 200px;
+}
+
+.nav-icons {
+	display: flex;
+	align-items: center;
 }
