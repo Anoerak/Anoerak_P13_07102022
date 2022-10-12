@@ -1,11 +1,33 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
+import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+
+import { update } from '../../features/Users/usersApi.slice';
+
+import Api from '../../api/Api';
 
 import Error from '../../components/Error/Error';
 
 import './UserAccount.css';
 
 const UserAccount = () => {
+	const dispatch = useDispatch();
+	const callAPI = new Api('http://localhost:8080');
+
+	const updateUser = (token) => {
+		const firstNameValue = document.getElementById('firstName').value;
+		const lastNameValue = document.getElementById('lastName').value;
+		let user = {
+			firstName: !firstNameValue ? userProfile.firstName : firstNameValue,
+			lastName: !lastNameValue ? userProfile.lastName : lastNameValue,
+		};
+		callAPI.updateUserProfile(user, token).then((res) => {
+			dispatch(update(res));
+			window.location.reload();
+		});
+	};
+
+	const [editMode, setEditMode] = useState(false);
+	const handleEditMode = () => setEditMode(!editMode);
 	const userProfile = useSelector((state) => state.users.userProfile);
 
 	return (
@@ -13,12 +35,51 @@ const UserAccount = () => {
 			{userProfile.status === 200 ? (
 				<main className="main bg-dark">
 					<div className="header">
-						<h1>
-							Welcome back
-							<br />
-							{userProfile.firstName} {userProfile.lastName}
-						</h1>
-						<button className="edit-button">Edit Name</button>
+						{editMode ? (
+							<div className="edit-wrapper">
+								<h1>Welcome</h1>
+								<div className="edit-input">
+									<label htmlFor="firstName"></label>
+									<input name="firstName" id="firstName" placeholder={userProfile.firstName}></input>
+									<label htmlFor="lastName"></label>
+									<input name="lastName" id="lastName" placeholder={userProfile.lastName}></input>
+								</div>
+								<div className="edit-buttons">
+									<button
+										className="valid-button"
+										onClick={() => {
+											updateUser(localStorage.getItem('token'));
+										}}
+									>
+										Valider
+									</button>
+									<button
+										className="cancel-button"
+										onClick={() => {
+											handleEditMode();
+										}}
+									>
+										Annuler
+									</button>
+								</div>
+							</div>
+						) : (
+							<>
+								<h1>
+									Welcome back
+									<br />
+									{userProfile.firstName} {userProfile.lastName}
+								</h1>
+								<button
+									className="edit-button"
+									onClick={() => {
+										handleEditMode();
+									}}
+								>
+									Edit Name
+								</button>
+							</>
+						)}
 					</div>
 					<h2 className="sr-only">Accounts</h2>
 					<section className="account">
