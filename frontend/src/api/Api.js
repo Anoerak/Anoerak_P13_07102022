@@ -66,8 +66,4 @@ export default class Api {
 			return err.response;
 		}
 	}
-
-	logoutUser() {
-		localStorage.removeItem('token');
-	}
 }

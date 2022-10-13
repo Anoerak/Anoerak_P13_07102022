@@ -25,7 +25,7 @@ export const usersApiSlice = createSlice({
 		getProfile: (state, { payload }) => {
 			state.userProfile = new Users(payload).getProfileUser();
 		},
-		register: (state, { payload }) => {
+		createAccount: (state, { payload }) => {
 			state.newUser = new Users(payload).createUser();
 		},
 		update: (state, { payload }) => {
@@ -41,6 +41,6 @@ export const usersApiSlice = createSlice({
 	},
 });
 
-export const { serverTest, login, getProfile, register, update, logout } = usersApiSlice.actions;
+export const { serverTest, login, getProfile, createAccount, update, logout } = usersApiSlice.actions;
 
 export default usersApiSlice.reducer;

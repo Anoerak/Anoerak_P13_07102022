@@ -1,4 +1,7 @@
-.sign-in-button {
+.sign-in-button,
+.sign-up-button,
+.cancel__button,
+.validate-button {
 	display: block;
 	width: 100%;
 	padding: 8px;
@@ -8,6 +11,18 @@
 	border-color: var(--secondary-color);
 	background-color: var(--secondary-color);
 	color: var(--primary-color);
+}
+
+.sign-up-button {
+	margin-top: 1rem;
+	border-color: var(--denary-color);
+	background-color: var(--denary-color);
+}
+
+.cancel__button {
+	margin-top: 1rem;
+	border-color: var(--quinary-color);
+	background-color: var(--quinary-color);
 }
 
 .sign-in-content {

@@ -1,38 +1,45 @@
-import React, { useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect, useMemo, useCallback } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getProfile, logout } from '../../features/Users/usersApi.slice';
 import Api from '../../api/Api';
 
+import usePrompt from '../../utils/hook/useRememberMe';
+
+import './Header.css';
+
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleUser } from '@fortawesome/free-solid-svg-icons';
 import { faRightFromBracket } from '@fortawesome/free-solid-svg-icons';
-
-import './Header.css';
 import argentBankLogo from '../../assets/img/argentBankLogo.png';
 
 const Header = () => {
 	const dispatch = useDispatch();
-	const url = 'http://localhost:8080';
-	const apiCall = new Api(url);
-
-	useEffect(() => {
-		let user = {};
-		let token = localStorage.getItem('token');
-		apiCall.getUserProfile(user, token).then((res) => {
-			dispatch(getProfile(res));
-		});
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, []);
-
+	const navigate = useNavigate();
+	let apiCall = useMemo(() => new Api('http://localhost:8080'), []);
+	let user = useMemo(() => {}, []);
+	let token = localStorage.getItem('token');
 	const userProfile = useSelector((state) => state.users.userProfile);
 
-	const logOut = () => {
+	usePrompt();
+
+	const checkCredentials = useCallback(() => {
+		if (token) {
+			apiCall.getUserProfile(user, token).then((res) => {
+				dispatch(getProfile(res));
+			});
+		}
+	}, [apiCall, dispatch, user, token]);
+
+	useEffect(() => {
+		checkCredentials();
+	}, [checkCredentials]);
+
+	const logOut = useCallback(() => {
 		localStorage.clear();
-		apiCall.logoutUser().then((res) => {
-			dispatch(logout(res));
-		});
-	};
+		dispatch(logout());
+		navigate('/');
+	}, [dispatch, navigate]);
 
 	return (
 		<nav className="main-nav">
@@ -46,15 +53,15 @@ const Header = () => {
 						<FontAwesomeIcon icon={faCircleUser} className="fa fa-user-circle" />
 						<p className="main-nav-link-text">{userProfile.firstName}</p>
 					</Link>
-					<Link
+					<button
 						onClick={() => {
 							logOut();
 						}}
-						to="/"
-						className="main-nav-item"
+						className="main-nav-item main-nav-itm-button"
 					>
-						<FontAwesomeIcon icon={faRightFromBracket} className="fa fa-sign-out" /> Sign Out
-					</Link>
+						<FontAwesomeIcon icon={faRightFromBracket} className="fa fa-sign-out" />
+						<p className="main-nav-link-text">Sign Out</p>
+					</button>
 				</div>
 			) : (
 				<div className="main-nav-item">

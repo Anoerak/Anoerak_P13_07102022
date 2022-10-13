@@ -1,17 +1,20 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { update } from '../../features/Users/usersApi.slice';
-
-import Api from '../../api/Api';
+import { getProfile, update } from '../../features/Users/usersApi.slice';
 
 import Error from '../../components/Error/Error';
+import Api from '../../api/Api';
 
 import './UserAccount.css';
 
 const UserAccount = () => {
 	const dispatch = useDispatch();
+	const userProfile = useSelector((state) => state.users.userProfile);
+
 	const callAPI = new Api('http://localhost:8080');
+	const [editMode, setEditMode] = useState(false);
+	const handleEditMode = () => setEditMode(!editMode);
 
 	const updateUser = (token) => {
 		const firstNameValue = document.getElementById('firstName').value;
@@ -22,13 +25,12 @@ const UserAccount = () => {
 		};
 		callAPI.updateUserProfile(user, token).then((res) => {
 			dispatch(update(res));
-			window.location.reload();
+			callAPI.getUserProfile(user, token).then((res) => {
+				dispatch(getProfile(res));
+			});
+			handleEditMode();
 		});
 	};
-
-	const [editMode, setEditMode] = useState(false);
-	const handleEditMode = () => setEditMode(!editMode);
-	const userProfile = useSelector((state) => state.users.userProfile);
 
 	return (
 		<>
