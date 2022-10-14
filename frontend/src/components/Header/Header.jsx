@@ -4,8 +4,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getProfile, logout } from '../../features/Users/usersApi.slice';
 import Api from '../../api/Api';
 
-import usePrompt from '../../utils/hook/useRememberMe';
-
 import './Header.css';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -16,19 +14,17 @@ import argentBankLogo from '../../assets/img/argentBankLogo.png';
 const Header = () => {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
+
 	let apiCall = useMemo(() => new Api('http://localhost:8080'), []);
 	let user = useMemo(() => {}, []);
-	let token = localStorage.getItem('token');
+
+	let token = !localStorage.getItem('token') ? sessionStorage.getItem('token') : localStorage.getItem('token');
 	const userProfile = useSelector((state) => state.users.userProfile);
 
-	usePrompt();
-
 	const checkCredentials = useCallback(() => {
-		if (token) {
-			apiCall.getUserProfile(user, token).then((res) => {
-				dispatch(getProfile(res));
-			});
-		}
+		apiCall.getUserProfile(user, token).then((res) => {
+			dispatch(getProfile(res));
+		});
 	}, [apiCall, dispatch, user, token]);
 
 	useEffect(() => {
@@ -36,6 +32,7 @@ const Header = () => {
 	}, [checkCredentials]);
 
 	const logOut = useCallback(() => {
+		sessionStorage.clear();
 		localStorage.clear();
 		dispatch(logout());
 		navigate('/');

@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
+
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleUser } from '@fortawesome/free-solid-svg-icons';
+
 import { useDispatch } from 'react-redux';
 
 import Api from '../../api/Api';
@@ -21,6 +23,15 @@ const Signin = () => {
 	const handleSignUpMode = () => setSignUpMode(!signUpMode);
 	const apiCall = new Api('http://localhost:8080');
 
+	/**
+	 * @description Signin form validation schema
+	 * @type {yup.ObjectSchema} schema
+	 * @property {string} email - Email address
+	 * @property {string} password - Password
+	 * @property {string} [confirmPassword] - Confirm password
+	 * @property {string} [firstName] - First name
+	 * @property {string} [lastName] - Last name
+	 */
 	const validationSchema = signUpMode
 		? yup.object().shape({
 				firstName: yup
@@ -62,38 +73,56 @@ const Signin = () => {
 		resolver: yupResolver(validationSchema),
 	});
 
-	const logIn = () => {
+	// Function to handle the persisting of the user's token in the local storage and the redux store
+	const rememberMeOption = (rememberMe, res) => {
+		if (rememberMe === true) {
+			localStorage.setItem('token', res.data.body.token);
+		} else {
+			sessionStorage.setItem('token', res.data.body.token);
+		}
+	};
+
+	// Function to handle the signin form submission
+	const logIn = (remBol) => {
+		// Create a new user object
 		let user = {
 			email: document.getElementById('email').value,
 			password: document.getElementById('password').value,
 		};
-		let rememberMe = document.getElementById('remember-me').checked;
-		console.log('rememberMe', rememberMe);
+		// Check if the user wants to be remembered / is signing up (in which case we won't persist the token)
+		let rememberStatus = remBol === 'false' ? remBol : document.getElementById('remember-me').checked;
+		// Call the login function from the usersApi.slice
 		apiCall.loginUser(user).then((res) => {
-			dispatch(login(res));
-			localStorage.setItem('token', res.data.body.token);
-			localStorage.setItem('rememberMe', rememberMe);
-			res.status === 200
-				? apiCall.getUserProfile(user, res.data.body.token).then((res) => {
-						dispatch(getProfile(res));
-						navigate('/user');
-				  })
-				: alert(res.message);
+			if (res.status === 200) {
+				dispatch(login(res));
+				rememberMeOption(rememberStatus, res);
+				// Call the getProfile function from the usersApi.slice
+				apiCall.getUserProfile(user, res.data.body.token).then((res) => {
+					dispatch(getProfile(res));
+					// Redirect the user to the home page if the login was successful
+					navigate('/user');
+				});
+			} else {
+				alert(res.data.message);
+			}
 		});
 		reset();
 	};
 
+	// Function to handle the signup form submission
 	const signUp = () => {
+		// Create a new user object
 		let user = {
 			firstName: document.getElementById('firstName').value,
 			lastName: document.getElementById('lastName').value,
 			email: document.getElementById('email').value,
 			password: document.getElementById('password').value,
 		};
+		// Call the createAccount function from the usersApi.slice
 		apiCall.registerUser(user).then((response) => {
-			console.log(response);
 			dispatch(createAccount(response));
-			response.status === 200 ? logIn() : alert(response.message);
+			// Redirect the user to the home page if the signup was successful
+			response.status === 200 ? logIn('false') : alert(response.message);
 		});
 	};
 

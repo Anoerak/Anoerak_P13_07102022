@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { getProfile, update } from '../../features/Users/usersApi.slice';
 
+import Loader from '../../components/Loader/Loader';
 import Error from '../../components/Error/Error';
 import Api from '../../api/Api';
 
@@ -16,10 +17,13 @@ const UserAccount = () => {
 	const [editMode, setEditMode] = useState(false);
 	const handleEditMode = () => setEditMode(!editMode);
 
+	// Update user profile
 	const updateUser = (token) => {
 		const firstNameValue = document.getElementById('firstName').value;
 		const lastNameValue = document.getElementById('lastName').value;
+		// Create user object
 		let user = {
+			// Check if a new value has been entered (if not, keep the old value)
 			firstName: !firstNameValue ? userProfile.firstName : firstNameValue,
 			lastName: !lastNameValue ? userProfile.lastName : lastNameValue,
 		};
@@ -34,7 +38,9 @@ const UserAccount = () => {
 
 	return (
 		<>
-			{userProfile.status === 200 ? (
+			{userProfile.status === null ? (
+				<Loader />
+			) : userProfile.status === 200 ? (
 				<main className="main bg-dark">
 					<div className="header">
 						{editMode ? (
@@ -50,7 +56,11 @@ const UserAccount = () => {
 									<button
 										className="valid-button"
 										onClick={() => {
-											updateUser(localStorage.getItem('token'));
+											updateUser(
+												!localStorage.getItem('token')
+													? sessionStorage.getItem('token')
+													: localStorage.getItem('token')
+											);
 										}}
 									>
 										Valider
