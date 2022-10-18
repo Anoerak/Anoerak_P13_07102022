@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: pages/UserAccount/UserAccount.jsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: pages/UserAccount/UserAccount.jsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+
+import { getProfile, update } from '../../features/Users/usersApi.slice';
+
+import Loader from '../../components/Loader/Loader';
+import Error from '../../components/Error/Error';
+import Api from '../../api/Api';
+
+import './UserAccount.css';
+
+/**
+ * Display the user account page
+ * @returns {React.Component}
+ */
+const UserAccount = () => {
+	const dispatch = useDispatch();
+	const userProfile = useSelector((state) => state.users.userProfile);
+	// Set the initial state of the form
+	const callAPI = new Api('http://localhost:8080');
+	const [editMode, setEditMode] = useState(false);
+	const handleEditMode = () => setEditMode(!editMode);
+
+	// Update user profile
+	const updateUser = (token) => {
+		const firstNameValue = document.getElementById('firstName').value;
+		const lastNameValue = document.getElementById('lastName').value;
+		// Create user object
+		let user = {
+			// Check if a new value has been entered (if not, keep the old value)
+			firstName: !firstNameValue ? userProfile.firstName : firstNameValue,
+			lastName: !lastNameValue ? userProfile.lastName : lastNameValue,
+		};
+		callAPI.updateUserProfile(user, token).then((res) => {
+			dispatch(update(res));
+			callAPI.getUserProfile(user, token).then((res) => {
+				dispatch(getProfile(res));
+			});
+			handleEditMode();
+		});
+	};
+
+	return (
+		&lt;>
+			{userProfile.status === null ? (
+				&lt;Loader />
+			) : userProfile.status === 200 ? (
+				&lt;main className="main bg-dark">
+					&lt;div className="header">
+						{editMode ? (
+							&lt;div className="edit-wrapper">
+								&lt;h1>Welcome&lt;/h1>
+								&lt;div className="edit-input">
+									&lt;label htmlFor="firstName">&lt;/label>
+									&lt;input name="firstName" id="firstName" placeholder={userProfile.firstName}>&lt;/input>
+									&lt;label htmlFor="lastName">&lt;/label>
+									&lt;input name="lastName" id="lastName" placeholder={userProfile.lastName}>&lt;/input>
+								&lt;/div>
+								&lt;div className="edit-buttons">
+									&lt;button
+										className="valid-button"
+										onClick={() => {
+											updateUser(
+												!localStorage.getItem('token')
+													? sessionStorage.getItem('token')
+													: localStorage.getItem('token')
+											);
+										}}
+									>
+										Valider
+									&lt;/button>
+									&lt;button
+										className="cancel-button"
+										onClick={() => {
+											handleEditMode();
+										}}
+									>
+										Annuler
+									&lt;/button>
+								&lt;/div>
+							&lt;/div>
+						) : (
+							&lt;>
+								&lt;h1>
+									Welcome back
+									&lt;br />
+									{userProfile.firstName} {userProfile.lastName}
+								&lt;/h1>
+								&lt;button
+									className="edit-button"
+									onClick={() => {
+										handleEditMode();
+									}}
+								>
+									Edit Name
+								&lt;/button>
+							&lt;/>
+						)}
+					&lt;/div>
+					&lt;h2 className="sr-only">Accounts&lt;/h2>
+					&lt;section className="account">
+						&lt;div className="account-content-wrapper">
+							&lt;h3 className="account-title">Argent Bank Checking (x8349)&lt;/h3>
+							&lt;p className="account-amount">$2,082.79&lt;/p>
+							&lt;p className="account-amount-description">Available Balance&lt;/p>
+						&lt;/div>
+						&lt;div className="account-content-wrapper cta">
+							&lt;button className="transaction-button">View transactions&lt;/button>
+						&lt;/div>
+					&lt;/section>
+					&lt;section className="account">
+						&lt;div className="account-content-wrapper">
+							&lt;h3 className="account-title">Argent Bank Savings (x6712)&lt;/h3>
+							&lt;p className="account-amount">$10,928.42&lt;/p>
+							&lt;p className="account-amount-description">Available Balance&lt;/p>
+						&lt;/div>
+						&lt;div className="account-content-wrapper cta">
+							&lt;button className="transaction-button">View transactions&lt;/button>
+						&lt;/div>
+					&lt;/section>
+					&lt;section className="account">
+						&lt;div className="account-content-wrapper">
+							&lt;h3 className="account-title">Argent Bank Credit Card (x8349)&lt;/h3>
+							&lt;p className="account-amount">$184.30&lt;/p>
+							&lt;p className="account-amount-description">Current Balance&lt;/p>
+						&lt;/div>
+						&lt;div className="account-content-wrapper cta">
+							&lt;button className="transaction-button">View transactions&lt;/button>
+						&lt;/div>
+					&lt;/section>
+				&lt;/main>
+			) : (
+				&lt;Error />
+			)}
+		&lt;/>
+	);
+};
+
+export default UserAccount;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Api.html">Api</a></li><li><a href="Users.html">Users</a></li></ul><h3>Global</h3><ul><li><a href="global.html#App">App</a></li><li><a href="global.html#Error">Error</a></li><li><a href="global.html#Footer">Footer</a></li><li><a href="global.html#Header">Header</a></li><li><a href="global.html#Home">Home</a></li><li><a href="global.html#Loader">Loader</a></li><li><a href="global.html#Signin">Signin</a></li><li><a href="global.html#store">store</a></li><li><a href="global.html#UserAccount">UserAccount</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.11</a> on Tue Oct 18 2022 10:46:32 GMT+0200 (Central European Summer Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

@@ -11,16 +11,20 @@ import { faCircleUser } from '@fortawesome/free-solid-svg-icons';
 import { faRightFromBracket } from '@fortawesome/free-solid-svg-icons';
 import argentBankLogo from '../../assets/img/argentBankLogo.png';
 
+/**
+ * Display the header of the application
+ * @returns {React.Component}
+ */
 const Header = () => {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
-
+	// Prepare the api call
 	let apiCall = useMemo(() => new Api('http://localhost:8080'), []);
 	let user = useMemo(() => {}, []);
-
+	// Check the storages to see if the user is logged in
 	let token = !localStorage.getItem('token') ? sessionStorage.getItem('token') : localStorage.getItem('token');
 	const userProfile = useSelector((state) => state.users.userProfile);
-
+	// Get the user profile and dispatch to Redux Store
 	const checkCredentials = useCallback(() => {
 		apiCall.getUserProfile(user, token).then((res) => {
 			dispatch(getProfile(res));
@@ -30,7 +34,7 @@ const Header = () => {
 	useEffect(() => {
 		checkCredentials();
 	}, [checkCredentials]);
-
+	// Logout the user by clearing the storage and redirect to the login page
 	const logOut = useCallback(() => {
 		sessionStorage.clear();
 		localStorage.clear();

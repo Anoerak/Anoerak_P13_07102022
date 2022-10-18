@@ -4,6 +4,11 @@ import { useSelector } from 'react-redux';
 
 import './Error.css';
 
+/**
+ *
+ * Display the error page based on the error code
+ * @returns {React.Component}
+ */
 const Error = () => {
 	const userProfile = useSelector((state) => state.users.userProfile);
 	return (

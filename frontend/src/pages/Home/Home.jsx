@@ -6,6 +6,11 @@ import iconChat from '../../assets/img/icon-chat.png';
 import iconMoney from '../../assets/img/icon-money.png';
 import iconSecurity from '../../assets/img/icon-security.png';
 
+/**
+ *
+ * Display the home page
+ * @returns {React.Component}
+ */
 const Home = () => {
 	return (
 		<main>

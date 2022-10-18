@@ -9,10 +9,14 @@ import Api from '../../api/Api';
 
 import './UserAccount.css';
 
+/**
+ * Display the user account page
+ * @returns {React.Component}
+ */
 const UserAccount = () => {
 	const dispatch = useDispatch();
 	const userProfile = useSelector((state) => state.users.userProfile);
-
+	// Set the initial state of the form
 	const callAPI = new Api('http://localhost:8080');
 	const [editMode, setEditMode] = useState(false);
 	const handleEditMode = () => setEditMode(!editMode);

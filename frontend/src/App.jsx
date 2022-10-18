@@ -11,6 +11,11 @@ import Error from './components/Error/Error';
 
 import './utils/style/App.css';
 
+/**
+ *
+ * Return a component with the routes of the application
+ * @returns {JSX.Element}
+ */
 function App() {
 	return (
 		<div className="App">

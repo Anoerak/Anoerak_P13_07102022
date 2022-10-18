@@ -1,4 +1,32 @@
-import React, { useState } from 'react';
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: pages/Signin/Signin.jsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: pages/Signin/Signin.jsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 
@@ -131,131 +159,154 @@ const Signin = () => {
 	};
 
 	return (
-		<main className="main bg-dark">
-			<section className="sign-in-content">
-				<FontAwesomeIcon icon={faCircleUser} className="fa fa-user-circle sign-in-icon" />
+		&lt;main className="main bg-dark">
+			&lt;section className="sign-in-content">
+				&lt;FontAwesomeIcon icon={faCircleUser} className="fa fa-user-circle sign-in-icon" />
 				{signUpMode ? (
-					<>
-						<h1>Sign Up</h1>
-						<form onSubmit={handleSubmit(signUp)}>
-							<div className="input-wrapper">
-								<label htmlFor="email">firstName</label>
-								<input
+					&lt;>
+						&lt;h1>Sign Up&lt;/h1>
+						&lt;form onSubmit={handleSubmit(signUp)}>
+							&lt;div className="input-wrapper">
+								&lt;label htmlFor="email">firstName&lt;/label>
+								&lt;input
 									type="text"
 									name="firstName"
 									id="firstName"
 									{...register('firstName')}
 									className={`form-control ${errors.firstName ? 'is-invalid' : ''}`}
 								/>
-								<div className="invalid-feedback">{errors.firstName?.message}</div>
-							</div>
-							<div className="input-wrapper">
-								<label htmlFor="email">lastName</label>
-								<input
+								&lt;div className="invalid-feedback">{errors.firstName?.message}&lt;/div>
+							&lt;/div>
+							&lt;div className="input-wrapper">
+								&lt;label htmlFor="email">lastName&lt;/label>
+								&lt;input
 									type="text"
 									name="lastName"
 									id="lastName"
 									{...register('lastName')}
 									className={`form-control ${errors.lastName ? 'is-invalid' : ''}`}
 								/>
-								<div className="invalid-feedback">{errors.lastName?.message}</div>
-							</div>
+								&lt;div className="invalid-feedback">{errors.lastName?.message}&lt;/div>
+							&lt;/div>
 
-							<div className="input-wrapper">
-								<label htmlFor="email">Email</label>
-								<input
+							&lt;div className="input-wrapper">
+								&lt;label htmlFor="email">Email&lt;/label>
+								&lt;input
 									type="email"
 									name="email"
 									id="email"
 									{...register('email')}
 									className={`form-control ${errors.email ? 'is-invalid' : ''}`}
 								/>
-								<div className="invalid-feedback">{errors.email?.message}</div>
-							</div>
-							<div className="input-wrapper">
-								<label htmlFor="password">Password</label>
-								<input
+								&lt;div className="invalid-feedback">{errors.email?.message}&lt;/div>
+							&lt;/div>
+							&lt;div className="input-wrapper">
+								&lt;label htmlFor="password">Password&lt;/label>
+								&lt;input
 									type="password"
 									name="password"
 									id="password"
 									{...register('password')}
 									className={`form-control ${errors.password ? 'is-invalid' : ''}`}
 								/>
-								<div className="invalid-feedback">{errors.password?.message}</div>
-							</div>
-							<div className="input-wrapper">
-								<label htmlFor="confirmPassword">Confirm Password</label>
-								<input
+								&lt;div className="invalid-feedback">{errors.password?.message}&lt;/div>
+							&lt;/div>
+							&lt;div className="input-wrapper">
+								&lt;label htmlFor="confirmPassword">Confirm Password&lt;/label>
+								&lt;input
 									type="password"
 									name="confirmPassword"
 									id="confirmPassword"
 									{...register('confirmPassword')}
 									className={`form-control ${errors.confirmPassword ? 'is-invalid' : ''}`}
 								/>
-								<div className="invalid-feedback">{errors.confirmPassword?.message}</div>
-							</div>
-							<div className="buttons-wrapper">
-								<button className="validate-button" type="submit">
+								&lt;div className="invalid-feedback">{errors.confirmPassword?.message}&lt;/div>
+							&lt;/div>
+							&lt;div className="buttons-wrapper">
+								&lt;button className="validate-button" type="submit">
 									Valider
-								</button>
-								<button
+								&lt;/button>
+								&lt;button
 									className="cancel__button"
 									onClick={() => {
 										handleSignUpMode();
 									}}
 								>
 									Annuler
-								</button>
-							</div>
-						</form>
-					</>
+								&lt;/button>
+							&lt;/div>
+						&lt;/form>
+					&lt;/>
 				) : (
-					<>
-						<h1>Sign In</h1>
-						<form onSubmit={handleSubmit(logIn)}>
-							<div className="input-wrapper">
-								<label htmlFor="email">Email</label>
-								<input
+					&lt;>
+						&lt;h1>Sign In&lt;/h1>
+						&lt;form onSubmit={handleSubmit(logIn)}>
+							&lt;div className="input-wrapper">
+								&lt;label htmlFor="email">Email&lt;/label>
+								&lt;input
 									type="text"
 									name="email"
 									id="email"
 									{...register('email')}
 									className={`form-control ${errors.email ? 'is-invalid' : ''}`}
 								/>
-								<div className="invalid-feedback">{errors.email?.message}</div>
-							</div>
-							<div className="input-wrapper">
-								<label htmlFor="password">Password</label>
-								<input
+								&lt;div className="invalid-feedback">{errors.email?.message}&lt;/div>
+							&lt;/div>
+							&lt;div className="input-wrapper">
+								&lt;label htmlFor="password">Password&lt;/label>
+								&lt;input
 									type="password"
 									name="password"
 									id="password"
 									{...register('password')}
 									className={`form-control ${errors.password ? 'is-invalid' : ''}`}
 								/>
-								<div className="invalid-feedback">{errors.password?.message}</div>
-							</div>
-							<div className="input-remember">
-								<input type="checkbox" id="remember-me" />
-								<label htmlFor="remember-me">Remember me</label>
-							</div>
-							<button className="sign-in-button" type="submit">
+								&lt;div className="invalid-feedback">{errors.password?.message}&lt;/div>
+							&lt;/div>
+							&lt;div className="input-remember">
+								&lt;input type="checkbox" id="remember-me" />
+								&lt;label htmlFor="remember-me">Remember me&lt;/label>
+							&lt;/div>
+							&lt;button className="sign-in-button" type="submit">
 								Sign In
-							</button>
-							<button
+							&lt;/button>
+							&lt;button
 								className="sign-up-button"
 								onClick={() => {
 									handleSignUpMode();
 								}}
 							>
 								Sign Up
-							</button>
-						</form>
-					</>
+							&lt;/button>
+						&lt;/form>
+					&lt;/>
 				)}
-			</section>
-		</main>
+			&lt;/section>
+		&lt;/main>
 	);
 };
 
 export default Signin;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Api.html">Api</a></li><li><a href="Users.html">Users</a></li></ul><h3>Global</h3><ul><li><a href="global.html#App">App</a></li><li><a href="global.html#Error">Error</a></li><li><a href="global.html#Footer">Footer</a></li><li><a href="global.html#Header">Header</a></li><li><a href="global.html#Home">Home</a></li><li><a href="global.html#Loader">Loader</a></li><li><a href="global.html#Signin">Signin</a></li><li><a href="global.html#store">store</a></li><li><a href="global.html#UserAccount">UserAccount</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.11</a> on Tue Oct 18 2022 10:46:32 GMT+0200 (Central European Summer Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

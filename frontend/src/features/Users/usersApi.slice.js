@@ -2,6 +2,10 @@ import { createSlice } from '@reduxjs/toolkit';
 
 import { Users } from '../../models/UsersModel';
 
+/**
+ * Redux Slice for Users
+ * @typedef {Object} UsersState
+ */
 export const usersApiSlice = createSlice({
 	name: 'users',
 	initialState: {

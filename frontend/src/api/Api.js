@@ -1,3 +1,9 @@
+/**
+ * Class for API calls
+ * @class Api
+ * @param {string} url - The URL of the API
+ */
+
 import axios from 'axios';
 
 export default class Api {

@@ -99,6 +99,9 @@ In the frontend directory:
 ![React-Router](https://img.shields.io/badge/reactrouter-6.4.0-blue?style=flat-square&logo=appveyor)
 ![Reduxjs/Toolkit](https://img.shields.io/badge/reduxjs-toolkit-%23764abc)
 ![Jest-Dom](https://img.shields.io/badge/jestdom-5.16.5-yellow?style=flat-square&logo=appveyor)
+![HookForm](https://img.shields.io/badge/hookform%2Fresolver-2.9.8-%23EB598F?style=flat-square&logo=appveyor)
+![axios](https://img.shields.io/badge/axios-1.1.2-%235A29E4?style=flat-square&logo=appveyor)
+![yup](https://img.shields.io/badge/yup-0.32.11-%233078C6?style=flat-square&logo=appveyor)
 
 ### Contribute to the project
 

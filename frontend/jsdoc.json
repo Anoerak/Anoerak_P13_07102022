@@ -1,0 +1,25 @@
+{
+	"plugins": ["plugins/markdown"],
+	"recurseDepth": 10,
+	"compilerOptions": {
+		"baseUrl": ".",
+		"module": "commonjs",
+		"target": "es2021",
+		"jsx": "react-native",
+		"checkJs": true
+	},
+	"source": {
+		"include": ["src"],
+		"includePattern": ".+\\.js(doc|x)?$",
+		"excludePattern": "(node_modules/|docs)"
+	},
+	"templates": {
+		"cleverLinks": true,
+		"monospaceLinks": true
+	},
+	"opts": {
+		"destination": "./jsdoc",
+		"recurse": true,
+		"readme": "./readme.md"
+	}
+}
