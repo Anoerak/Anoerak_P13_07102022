@@ -24,8 +24,16 @@ tags:
       externalDocs:
           description: Find out more about transactions.
           url: http://swagger.io
-    - name: Comment Module
+    - name: Category Module
       description: Give access to user's comments about a specific transaction.
+      externalDocs:
+          description: Find out more about transactions.
+          url: http://swagger.io
+    - name: Note Module
+      description: Give access to user's comments about a specific transaction.
+      externalDocs:
+          description: Find out more about transactions.
+          url: http://swagger.io
 
 paths:
     /user/accounts:
@@ -67,7 +75,7 @@ paths:
         get:
             tags:
                 - Transactions Module
-            summary: get the transactions for a giving user
+            summary: get the transactions for a giving account for a giving user
             description: get the 30 latest days' transactions for a giving user, for a specific account
             operationId: getTransactions
             security:
@@ -104,7 +112,54 @@ paths:
                 '418':
                     description: I'm a teapot
 
-    /user/{accountId}/transactions/{month}:
+    /user/{accountId}/transactions/{year}:
+        get:
+            tags:
+                - Transactions Module
+            summary: get the transactions for a giving user for a giving year
+            description: get the transactions for a giving user for a giving year
+            operationId: getTransactionsYear
+            security:
+                - Bearer: []
+            parameters:
+                - name: Authorization
+                  in: header
+                  description: JWT Bearer
+                  required: true
+                  schema:
+                      type: string
+                - in: path
+                  name: accountId
+                  schema:
+                      type: string
+                  required: true
+                  description: id for the specific account
+                - in: path
+                  name: year
+                  schema:
+                      type: integer
+                  required: true
+                  description: numeric format of the year required
+            responses:
+                '200':
+                    description: The request succeeded.
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/TransactionsResponse'
+                        application/xml:
+                            schema:
+                                $ref: '#/components/schemas/TransactionsResponse'
+                '400':
+                    description: No datas for this month, check the value selected.
+                '401':
+                    description: User authentification error. Authenticate yourself and try again.
+                '404':
+                    description: The page you’re looking for doesn’t exist.
+                '418':
+                    description: I'm a teapot
+
+    /user/{accountId}/transactions/{year}:{month}:
         get:
             tags:
                 - Transactions Module
@@ -126,6 +181,12 @@ paths:
                       type: string
                   required: true
                   description: id for the specific account
+                - in: path
+                  name: year
+                  schema:
+                      type: integer
+                  required: true
+                  description: numeric format of the month required
                 - in: path
                   name: month
                   schema:
@@ -198,12 +259,13 @@ paths:
                 '418':
                     description: I'm a teapot
 
+    /user/{accountId}/transaction/{transactionid}/category:
         post:
             tags:
-                - Comment Module
-            summary: create a category &/or a comment on a transaction.
-            description: will create an object with a 'category' and a 'note'.
-            operationId: postTransactionComment
+                - Category Module
+            summary: create a category on a transaction.
+            description: will create an object with a 'category'
+            operationId: postTransactionCategory
             security:
                 - Bearer: []
             parameters:
@@ -226,15 +288,15 @@ paths:
                   required: true
                   description: transaction id
             requestBody:
-                description: add a category and a comment on a specific transaction.
+                description: add a category a specific transaction.
                 required: true
                 content:
                     application/json:
                         schema:
-                            $ref: '#/components/schemas/Comment'
+                            $ref: '#/components/schemas/Category'
                     application/xml:
                         schema:
-                            $ref: '#/components/schemas/Comment'
+                            $ref: '#/components/schemas/Category'
             responses:
                 '200':
                     description: The request succeeded.
@@ -254,12 +316,128 @@ paths:
                 '418':
                     description: I'm a teapot
 
+    /user/{accountId}/transaction/{transactionid}/category/{categoryid}:
         put:
             tags:
-                - Comment Module
-            summary: change a category &/or a comment on a transaction.
-            description: will create an object with a 'category' and a 'note' to replace previous value.
-            operationId: putTransactionComment
+                - Category Module
+            summary: change a category a transaction.
+            description: will create an object with a 'category' to replace previous value.
+            operationId: putTransactionCategory
+            security:
+                - Bearer: []
+            parameters:
+                - name: Authorization
+                  in: header
+                  description: JWT Bearer
+                  required: true
+                  schema:
+                      type: string
+                - in: path
+                  name: accountId
+                  schema:
+                      type: string
+                  required: true
+                  description: id for the specific account
+                - in: path
+                  name: transactionid
+                  schema:
+                      type: string
+                  required: true
+                  description: transaction id
+                - in: path
+                  name: categoryid
+                  schema:
+                      type: string
+                  required: true
+                  description: category id
+            requestBody:
+                description: will modify a category a specific transaction.
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/Category'
+                    application/xml:
+                        schema:
+                            $ref: '#/components/schemas/Category'
+            responses:
+                '200':
+                    description: The request succeeded.
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/CommentResponse'
+                        application/xml:
+                            schema:
+                                $ref: '#/components/schemas/CommentResponse'
+                '400':
+                    description: Invalid Fields, check your inputs.
+                '401':
+                    description: User authentification error. Authenticate yourself and try again.
+                '404':
+                    description: The page you’re looking for doesn’t exist.
+                '418':
+                    description: I'm a teapot
+
+        delete:
+            tags:
+                - Category Module
+            summary: delete a category on a transaction.
+            description: will create an object with a 'category'.
+            operationId: deleteTransactionCategory
+            security:
+                - Bearer: []
+            parameters:
+                - name: Authorization
+                  in: header
+                  description: JWT Bearer
+                  required: true
+                  schema:
+                      type: string
+                - in: path
+                  name: accountId
+                  schema:
+                      type: string
+                  required: true
+                  description: id for the specific account
+                - in: path
+                  name: transactionid
+                  schema:
+                      type: string
+                  required: true
+                  description: transaction id
+                - in: path
+                  name: categoryid
+                  schema:
+                      type: string
+                  required: true
+                  description: category id
+            responses:
+                '200':
+                    description: The request succeeded.
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/CommentDeletedResponse'
+                        application/xml:
+                            schema:
+                                $ref: '#/components/schemas/CommentDeletedResponse'
+                '400':
+                    description: Invalid Fields, check your inputs.
+                '401':
+                    description: User authentification error. Authenticate yourself and try again.
+                '404':
+                    description: The page you’re looking for doesn’t exist.
+                '418':
+                    description: I'm a teapot
+
+    /user/{accountId}/transaction/{transactionid}/note:
+        post:
+            tags:
+                - Note Module
+            summary: create a note on a transaction.
+            description: will create an object with a 'note'
+            operationId: postTransactionNote
             security:
                 - Bearer: []
             parameters:
@@ -282,15 +460,15 @@ paths:
                   required: true
                   description: transaction id
             requestBody:
-                description: will modify a category and/or a comment on a specific transaction.
+                description: add a category a specific transaction.
                 required: true
                 content:
                     application/json:
                         schema:
-                            $ref: '#/components/schemas/Comment'
+                            $ref: '#/components/schemas/Note'
                     application/xml:
                         schema:
-                            $ref: '#/components/schemas/Comment'
+                            $ref: '#/components/schemas/Note'
             responses:
                 '200':
                     description: The request succeeded.
@@ -310,13 +488,13 @@ paths:
                 '418':
                     description: I'm a teapot
 
-    /user/{accountId}/transaction/{id}/{commentid}:
-        delete:
+    /user/{accountId}/transaction/{transactionid}/note/{noteid}:
+        put:
             tags:
-                - Comment Module
-            summary: delete a category &/or a comment on a transaction.
-            description: will create an object with a 'category' and a 'note'.
-            operationId: deleteTransactionComment
+                - Note Module
+            summary: change a note a transaction.
+            description: will create an object with a 'note' to replace previous value.
+            operationId: putTransactionNote
             security:
                 - Bearer: []
             parameters:
@@ -333,17 +511,79 @@ paths:
                   required: true
                   description: id for the specific account
                 - in: path
-                  name: id
+                  name: transactionid
                   schema:
                       type: string
                   required: true
                   description: transaction id
                 - in: path
-                  name: commentid
+                  name: noteid
                   schema:
                       type: string
                   required: true
-                  description: comment or category id
+                  description: note id
+            requestBody:
+                description: will modify a category a specific transaction.
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/Note'
+                    application/xml:
+                        schema:
+                            $ref: '#/components/schemas/Note'
+            responses:
+                '200':
+                    description: The request succeeded.
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/CommentResponse'
+                        application/xml:
+                            schema:
+                                $ref: '#/components/schemas/CommentResponse'
+                '400':
+                    description: Invalid Fields, check your inputs.
+                '401':
+                    description: User authentification error. Authenticate yourself and try again.
+                '404':
+                    description: The page you’re looking for doesn’t exist.
+                '418':
+                    description: I'm a teapot
+
+        delete:
+            tags:
+                - Note Module
+            summary: delete a note on a transaction.
+            description: will create an object with a 'note'.
+            operationId: deleteTransactionNote
+            security:
+                - Bearer: []
+            parameters:
+                - name: Authorization
+                  in: header
+                  description: JWT Bearer
+                  required: true
+                  schema:
+                      type: string
+                - in: path
+                  name: accountId
+                  schema:
+                      type: string
+                  required: true
+                  description: id for the specific account
+                - in: path
+                  name: transactionid
+                  schema:
+                      type: string
+                  required: true
+                  description: transaction id
+                - in: path
+                  name: noteid
+                  schema:
+                      type: string
+                  required: true
+                  description: note id
             responses:
                 '200':
                     description: The request succeeded.
@@ -450,6 +690,42 @@ components:
                 - transactionNote
             xml:
                 name: comment
+
+        Category:
+            type: object
+            properties:
+                transactionCategory:
+                    type: object
+                    properties:
+                        categoryId:
+                            type: string
+                            example: fqREQST3354GFqgr
+                        categoryValue:
+                            type: string
+                            example: one Category
+                            description: 'if empty, will return the actual value. Has to be equal to one the the value in the dropdown.'
+            required:
+                - transactionCategory
+            xml:
+                name: category
+
+        Note:
+            type: object
+            properties:
+                transactionNote:
+                    type: object
+                    properties:
+                        noteId:
+                            type: string
+                            example: FQZ4tzse335Y5gq
+                        noteValue:
+                            type: string
+                            example: here is a comment
+                            description: if empty, will return the actual value.
+            required:
+                - transactionNote
+            xml:
+                name: note
 
         AccountsResponse:
             type: object
