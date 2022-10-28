@@ -1,7 +1,7 @@
 # ArgentBank
 
 ![forthebadge](https://forthebadge.com/images/badges/60-percent-of-the-time-works-every-time.svg)
-![forthebadge](https://forthebadge.com/images/badges/made-with-javascript.svg)
+![forthebadge](https://forthebadge.com/generator/?plabel=MADE+WITH&pbg=%2322CCFA&slabel=REACT&sbg=%2361DAFB)
 ![forthebadge](https://forthebadge.com/images/badges/uses-css.svg)
 
 ![GitHub repo size](https://img.shields.io/github/repo-size/Anoerak/Proust_Sebastien_P13_07102022?style=plastic)
